@@ -32,6 +32,18 @@ public class DriverController {
         return this.driverService.register(mdriver);
     }
 
+    @MutationMapping("saveDriver")
+    public APIResponse saveDriver(@Argument DriverInput driver) {
+
+        Driver mdriver = new Driver();
+        mdriver.setName(driver.getName());
+        mdriver.setAge(driver.getAge());
+        mdriver.setEmail(driver.getEmail());
+        mdriver.setMobile(driver.getMobile());
+        mdriver.setPassword(driver.getPassword());
+       return this.driverService.save(mdriver);
+    }
+
     @QueryMapping("getDriver")
     public List<Driver> getAll() {
         return this.driverService.getDrivers();
@@ -47,14 +59,12 @@ public class DriverController {
 
     @MutationMapping("deleteDriverByEmail")
     public APIResponse deleteDriver(@Argument String email) {
-        System.out.println(email);
 
-       return this.driverService.deletedDriver(email);
+        return this.driverService.deletedDriver(email);
     }
 
 
-
-   public class DriverInput {
+    public class DriverInput {
         private String name;
         private int age;
         private String mobile;

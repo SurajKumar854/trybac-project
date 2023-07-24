@@ -19,7 +19,19 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver register(Driver driver) {
+
         return this.driverRep.save(driver);
+    }
+
+    @Override
+    public APIResponse save(Driver driver) {
+        if (this.driverRep.findDriverByEmail(driver.getEmail()).isPresent()) {
+            return new APIResponse(false, 500, "Email is already Exist");
+        } else {
+            this.driverRep.save(driver);
+            return new APIResponse(true, 200, "Account created successfully");
+        }
+
     }
 
     @Override
@@ -32,6 +44,7 @@ public class DriverServiceImpl implements DriverService {
         return this.driverRep.findById(driverId).orElseThrow(() -> new RuntimeException("Driver not Found"));
 
     }
+
 
     @Override
     public APIResponse deletedDriver(String email) {
